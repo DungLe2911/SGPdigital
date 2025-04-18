@@ -40,3 +40,8 @@ This project reflects our ongoing commitment to innovation and continuous improv
 ---
 
 Stay tuned for updates as we continue building out this platform!
+
+
+## License
+
+This project is licensed under the [Apache 2.0 License](LICENSE).
