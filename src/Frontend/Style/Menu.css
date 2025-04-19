@@ -1,0 +1,20 @@
+.pageContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 120px);
+    gap: 10px
+}
+
+@media (min-width: 580px) {
+    
+}
+
+@media (min-width: 1024px) {
+    
+}
+
+@media (min-width: 1250px) {
+
+}
