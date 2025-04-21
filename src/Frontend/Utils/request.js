@@ -1,8 +1,16 @@
-import axios from "axios"
+import apiClient, { createUrl } from "./apiClient.js";
+
 
 const loginUser = async(payload) =>{
-    const response = await axios.post('/auth/login', payload,{withCredentials: true});
+    const url = createUrl('/auth/login');
+    const response = apiClient.post(url, payload, {withCredentials: true});
     return response;
 }
 
-export {loginUser}
+const authCheck = async(payload)=>{
+    const url = createUrl('/auth/test');
+    const response = apiClient.get(url, {withCredentials: true});
+    return response
+}
+
+export {loginUser, authCheck}

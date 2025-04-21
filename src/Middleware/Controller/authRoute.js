@@ -14,7 +14,7 @@ authRoute.get('/logout', (req, res) => {
     secure: true,    // Ensure cookies set over HTTPS are cleared
     sameSite: 'none', // Match the sameSite setting
   });
-  return res.status(200).json({redirect: true, url: `aaaaaaa`})
+  return res.status(200).json({redirect: true, url: `/`, message: 'logout successfully'})
 });
 
 //Log in user using local strategy
@@ -29,7 +29,7 @@ authRoute.post('/login', passport.authenticate('custom-login', { failWithError: 
       maxAge: 60 * 60 * 1000, // 1 hour
       path: '/',
     });
-    return res.status(200).json({redirect: true, url: `aaaaaaa`})
+    return res.status(200).json({redirect: true, url: `/menu`, message: `login successfully`})
   }
   ,(err, req, res, next) => {
     const info = req.authInfo;

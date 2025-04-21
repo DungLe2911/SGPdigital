@@ -23,7 +23,7 @@ app.use((req, res, next) => {
     if (!cookies) {
       console.log("NO COOKIES FOUND")
     } else {
-      token = cookies.BirdieJWT;
+      token = cookies.RichieMiddleRoom;
       console.log("FOUND COOKIES:", token)
     }
     if (token) {

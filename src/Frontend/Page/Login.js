@@ -30,12 +30,13 @@ export default function Login(){
                 setLoadingStatus(true);
                 const loginInput = document.getElementById("loginInput");
                 loginInput.value = '';
-                const response = await loginUser({username});
+                try{
+                    const response = await loginUser({username});
+                }catch(err){
+                    
+                }
                 setUsername('');
                 setLoadingStatus(false);
-                if(response.status === 200){
-                    navigate('/menu');
-                }
             }catch(err){    
                 console.log(err.message)
             }

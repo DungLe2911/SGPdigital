@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import '../Style/Menu.css';
-import { authCheck } from '../Utils/auth.js';
+
 import { Link, useNavigate } from 'react-router-dom';
 import { menuItem } from '../Asset/Data.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { authCheck } from '../Utils/request.js';
 
 export default function Menu() {
     const [authenticated, setAuthenticated] = useState(false);
@@ -11,12 +12,16 @@ export default function Menu() {
 
     useEffect(() => {
         const checkAuthentication = async () => {
-            const isAuth = await authCheck();
-            if (!isAuth) {
-                navigate('/');
-                return;
+            try{
+                const response = await authCheck();
+                const isAuth = response.data.isAuthenticated;
+                if (!isAuth) {
+                    return;
+                }
+                setAuthenticated(isAuth);
+            }catch(error){
+                console.log(error)
             }
-            setAuthenticated(isAuth);
         };
         checkAuthentication();
     }, [navigate]);

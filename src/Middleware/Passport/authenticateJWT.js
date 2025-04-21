@@ -5,13 +5,13 @@ const authenticateJWT = (req,res,next) =>{
     if(token){
         jwt.verify(token,  "Middleroom", (err, decoded)=>{
             if(err){
-                return res.status(401).json({redirect: true, url: `api/auth/signin`})
+                return res.status(401).json({redirect: true, url: `/`, message: 'Unauthorized! Please sign in'})
             }
             req.user = decoded;
             next();
         });
     }else{
-        return res.status(401).json({redirect: true, url: `api/auth/signin`})
+        return res.status(401).json({redirect: true, url: `/`, message: 'Unauthorized! Please sign in'})
     }
 };
 
