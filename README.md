@@ -1,70 +1,69 @@
-# Getting Started with Create React App
+# Production Floor Digitalization – South Georgia Pecan
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+At **South Georgia Pecan**, a leading pecan processing and manufacturing company, we're taking a digital step forward to improve operational efficiency and record-keeping on the production floor. This project is part of an internal initiative to **digitalize daily activities**, **reduce reliance on physical paperwork**, and **make historical data easily accessible and exportable**. The goal is to streamline workflows, support a diverse workforce, and provide a clean, modern interface for production staff.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+### 💡 Current Status
 
-### `npm start`
+This version showcases the **User Interface prototype** – a visual preview of how the final application will look. Functional features like user authentication, role-based access control (RBAC), and multilingual support will be implemented in future development phases.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 🔧 Tech Stack & Key Libraries
 
-### `npm test`
+- **Frontend Framework:** ReactJS + TypeScript
+- **Authentication & RBAC:** [Clerk](https://clerk.dev/) 
+- **Database:** MongoDB (NoSQL)
+- **Multi-language Support:** [i18next](https://www.i18next.com/) + [react-i18next](https://react.i18next.js.org/)
+- **Notifications:** [React Toastify](https://fkhadra.github.io/react-toastify/)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+### 🧱 Architecture Decision
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Given the scoped nature of this project and its limited intended deployment, we have chosen to adopt a **monolithic architecture**. This approach consolidates both the **frontend** and **backend** within a single codebase, allowing for simplified deployment, reduced overhead, and easier maintenance during internal use.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 🔒 Authentication & Session Management
 
-### `npm run eject`
+We've implemented a shift-aligned authentication system using cookies to store user information. For seamless production floor usage:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Cookies automatically expire at fixed times (3PM, 11PM, and 7AM)
+- When a user logs in, their session expiration is set to the next time bracket
+- This approach aligns with our production shifts and ensures clean session management across shift changes
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This design reduces manual logouts and ensures data security while accommodating our 24/7 production schedule.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 🔜 Coming Features
 
-## Learn More
+- ✅ Role-Based Access Control (RBAC) for managing user permissions
+- ✅ Multi-language support for accessibility across our diverse team
+- ✅ Backend integration for storing and retrieving production data
+- ✅ Toast-based notifications for real-time user feedback
+- ✅ **Export data to Excel (.xlsx) based on a selected date range** – for seamless reporting and analysis in Microsoft Excel
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 🚀 Why This Matters
 
-### Code Splitting
+By bringing digital tools to the factory floor, we aim to:
+- Enhance productivity and data accuracy
+- Support compliance and traceability
+- Empower staff with modern, intuitive tools
+- Provide flexible reporting and insights through Excel export
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+This project reflects our ongoing commitment to innovation and continuous improvement at South Georgia Pecan.
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Stay tuned for updates as we continue building out this platform!
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## License
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is licensed under the [Apache 2.0 License](LICENSE).
