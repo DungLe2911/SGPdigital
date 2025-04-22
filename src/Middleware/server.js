@@ -42,13 +42,34 @@ async function appInitiallization(){
         ()=>{console.log(`Successfully connect to ${mongStr}`)}, 
         err =>{console.error(`Error connecting to ${mongStr}: ${err}`)})
 
-    //setting cors for connection from frontend
-    app.use(cors({
-      origin: 'http://localhost:3000', // frontend URL
-      credentials: true,               // Allow credentials (cookies, authorization headers)
-      methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
-      allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
-    }));
+    // setting cors for connection from frontend
+    const allowedOrigins = [
+      `http://127.0.0.1:3000`,
+      'http://localhost:3000',
+      'http://10.0.13.129:3000'
+    ];
+    const corsOptions = {
+      origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-XSRF-TOKEN', 'Accept', 'Origin'],
+      credentials: true,
+      optionsSuccessStatus: 200 
+    };
+    app.options('/', (req, res) => {
+      console.log('in OPTIONS request for ALL routes')
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+      res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+      res.header('Access-Control-Allow-Credentials', 'true');
+      return res.sendStatus(200); // This ensures no further processing of the OPTIONS request
+    });
+    app.use(cors(corsOptions));
 
     //dynamically import the routes
     const passportConfig = (await import('./Passport/config.js')).default;
@@ -58,7 +79,7 @@ async function appInitiallization(){
     console.log('-----------------------------------------')
     app
     .use('/auth', authRoute)
-    .listen(PORT, () => {console.log(`Server running at http://localhost:${PORT}`)});
+    .listen(PORT, '0.0.0.0', () => {console.log(`Server running at http://localhost:${PORT}`)});
 
   }catch(error){
     console.log("Unexpected error occured during initiallization")

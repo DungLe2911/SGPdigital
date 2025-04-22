@@ -24,8 +24,8 @@ authRoute.post('/login', passport.authenticate('custom-login', { failWithError: 
     const {userObject,token} = req.user;
     res.cookie('RichieMiddleRoom', token, {
       httpOnly: true,       // Prevents JavaScript access (XSS protection)
-      secure: true,  
-      sameSite: 'none',   // Prevents CSRF 
+      secure: false,  
+      sameSite: 'lax',   // Prevents CSRF 
       maxAge: 60 * 60 * 1000, // 1 hour
       path: '/',
     });

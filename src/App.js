@@ -13,32 +13,32 @@ function App() {
     const location = useLocation();
     useEffect(() => {
       setupApiClient({ navigate, toast });
-
-      function adjustAppMargin() {
-        const app = document.querySelector('.App');
-        const header = document.querySelector('.headerContainer');
-        
-        if (app && header) {
-          const headerHeight = header.getBoundingClientRect().height + 10;
-          app.style.marginTop = `${headerHeight}px`;
-        }
-      }
-      
-      // Run on load
-      adjustAppMargin();
       if(location.pathname !== '/'){
         setDisplayHeader(true);
       }else{
         setDisplayHeader(false);
       }
+    }, [navigate, location]);
 
+    useEffect(()=>{
+      async function adjustAppMargin() {
+        await new Promise(resolve => setTimeout(resolve, 50));
+        const app = document.querySelector('.App');
+        const header = document.querySelector('.headerContainer');
+        console.log(app)
+        console.log(header)
+        if (app && header) {
+          console.log("wedfwqefwef")
+          const headerHeight = header.getBoundingClientRect().height + 10;
+          app.style.marginTop = `${headerHeight}px`;
+        }
+      }
+      adjustAppMargin();
       window.addEventListener('resize', adjustAppMargin);
       return () => {
         window.removeEventListener('resize', adjustAppMargin);
       };
-     
-
-    }, [navigate, location]);
+    },[])
 
     
   return (
