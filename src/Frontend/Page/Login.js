@@ -3,15 +3,13 @@ import '../Style/Login.css'
 import LoadingSpinner from '../Component/LoadingSpinner.js';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as FaSolid from '@fortawesome/free-solid-svg-icons'
-import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../Utils/request.js';
 import logo from'../Asset/Login/logo.png';
 
 export default function Login(){
     const [width, setWidth] = useState(window.innerWidth);
     const [username, setUsername] = useState('');
-    const [LoadingStatus, setLoadingStatus] = useState(false);
-    const navigate = useNavigate();
+    const [LoadingStatus, setLoadingStatus] = useState(false)
     useEffect(() => {
         const handleResize = () => setWidth(window.innerWidth);
       
@@ -32,8 +30,11 @@ export default function Login(){
                 loginInput.value = '';
                 try{
                     const response = await loginUser({username});
+                    if(response.status === 200){
+                        localStorage.setItem("user", JSON.stringify(response.data.userObject))
+                    }
                 }catch(err){
-                    
+
                 }
                 setUsername('');
                 setLoadingStatus(false);

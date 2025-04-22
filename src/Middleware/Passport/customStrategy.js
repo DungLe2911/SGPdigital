@@ -14,7 +14,8 @@ const customStrategy = new CustomStrategy.Strategy(async (req, done) => {
                 const token = jwt.sign(
                     {
                         id: user._id.toString(),
-                        email: user.username
+                        username: user.username,
+                        role: user.role
                     },
                     'Middleroom',
                     {
@@ -23,7 +24,7 @@ const customStrategy = new CustomStrategy.Strategy(async (req, done) => {
                 );
                 console.log("JWT created successfully");
                 const userObject = user.toObject();
-                return done(null, {...userObject, token });
+                return done(null, {userObject, token });
                 
             } else {
                 console.log("User NOT FOUND!");

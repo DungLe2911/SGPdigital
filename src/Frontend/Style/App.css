@@ -1,24 +1,24 @@
 .App {
   display: block;
-  margin: 15px 12px 75px;
+  margin: 15px 12px 0px;
   min-width: 259px;
   unicode-bidi: isolate;
 }
 
 @media (min-width: 580px){
   .App{
-    margin-bottom: 100px;
-    margin-top: 60px;
+    /* margin-bottom: 100px; */
+    /* margin-top: 8%; */
   }
 }
 
 @media(min-width: 1024px){
   .App{
-    margin-bottom: 60px;
+    /* margin-bottom: 60px; */
   }
 
   .pageContent{
-    margin: auto;
+    /* margin: auto; */
     position: relative;
     width: max-content;
   }
@@ -36,7 +36,7 @@
   }
 
   .pageContent{
-    margin: 0;
+    /* margin: 0; */
     min-width: 75%;
     width: 75%;
   }

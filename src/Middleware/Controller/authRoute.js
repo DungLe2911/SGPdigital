@@ -21,7 +21,7 @@ authRoute.get('/logout', (req, res) => {
 authRoute.post('/login', passport.authenticate('custom-login', { failWithError: true, session: false }),
   (req, res) => {
     console.log("/login route reached: successful authentication.");
-    const {token} = req.user;
+    const {userObject,token} = req.user;
     res.cookie('RichieMiddleRoom', token, {
       httpOnly: true,       // Prevents JavaScript access (XSS protection)
       secure: true,  
@@ -29,7 +29,7 @@ authRoute.post('/login', passport.authenticate('custom-login', { failWithError: 
       maxAge: 60 * 60 * 1000, // 1 hour
       path: '/',
     });
-    return res.status(200).json({redirect: true, url: `/menu`, message: `login successfully`})
+    return res.status(200).json({redirect: true, url: `/menu`, message: `login successfully`, userObject})
   }
   ,(err, req, res, next) => {
     const info = req.authInfo;
