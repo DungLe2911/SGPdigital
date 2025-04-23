@@ -57,6 +57,7 @@ apiClient.interceptors.response.use(
               if (externalToast) {
                 externalToast.error(data.message || 'Unauthorized');
               }
+              localStorage.clear();
               externalNavigate(data.url || '/');
             } else if (data?.message && externalToast) {
               externalToast.error(data.message);

@@ -1,7 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import cookieParser from 'cookie-parser';
+import cookieParser from 'cookie-parser'; 
+import os from 'os';
 
 const app = express();
 const PORT = 8080;
@@ -11,6 +12,19 @@ const mongStr = 'mongodb://localhost:2107/';
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+const getLocalIP = () => {
+  const interfaces = os.networkInterfaces();
+  for (const iface of Object.values(interfaces)) {
+    for (const config of iface) {
+      if (config.family === 'IPv4' && !config.internal) {
+        return config.address; // e.g., '192.168.0.10'
+      }
+    }
+  }
+  return null;
+};
+
 
 
 app.use((req, res, next) => {
@@ -46,8 +60,11 @@ async function appInitiallization(){
     const allowedOrigins = [
       `http://127.0.0.1:3000`,
       'http://localhost:3000',
-      'http://10.0.13.129:3000'
     ];
+    const IpAddr = getLocalIP();
+    if(IpAddr !== null){
+      allowedOrigins.push(`http://${IpAddr}:3000`)
+    }
     const corsOptions = {
       origin: (origin, callback) => {
         if (!origin || allowedOrigins.includes(origin)) {

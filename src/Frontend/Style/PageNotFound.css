@@ -1,0 +1,75 @@
+.PageNotFoundContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    width: 100%;
+    min-height: 80vh;
+    /* font-family: 'Arvo', serif; */
+    text-align: center;
+    box-sizing: border-box;
+  }
+  
+  .gifImage {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    margin: 1.5rem 0;
+  }
+  
+  .title404 {
+    font-weight: 400;
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .text1 {
+    font-weight: 300;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #555;
+  }
+  
+  .text2 {
+    font-weight: 200;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    color: #777;
+  }
+  
+  .homeBtn {
+    padding: 10px 20px;
+    background-color: #39ac31;
+    color: white;
+    border-radius: 15px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .homeBtn:hover {
+    cursor: pointer;
+    background-color: #2c8d25;
+  }
+  
+  /* 🔎 Responsive scaling for large screens */
+  @media screen and (min-width: 768px) {
+    .title404 {
+      font-size: 5rem;
+    }
+  
+    .text1 {
+      font-size: 2rem;
+    }
+  
+    .text2 {
+      font-size: 1.25rem;
+    }
+  
+    .homeBtn {
+      font-size: 1.2rem;
+      padding: 12px 24px;
+    }
+  }
+  

@@ -1,10 +1,12 @@
 import '../Style/PageHeader.css'
 import logo from '../Asset/logoIcon.png'
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function PageHeader() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         function adjustAppMargin() {
@@ -21,19 +23,23 @@ export default function PageHeader() {
         adjustAppMargin();
         window.addEventListener('resize', adjustAppMargin);
         const user = JSON.parse(localStorage.getItem('user'))
-        setFirstName(user.firstName);
-        setLastName(user.lastName);
+        if(user){
+            setFirstName(user.firstName);
+            setLastName(user.lastName);
+        }
         return () => {
             window.removeEventListener('resize', adjustAppMargin);
         };
     }, []);
 
-
+    const handleClickLogo = ()=>{
+        navigate('/menu');
+    }
     return (
         <div className="headerContainer">
             <div className='contentArea'>
                 <div className='leftSide'>
-                    <figure className='headerLogo'>
+                    <figure onClick={()=>{handleClickLogo()}} className='headerLogo'>
                         <img src={logo} alt='Sotuh Georgia Pecan Co. Logo' />
                     </figure>
                     <h2 className='headerText'>{`Welcome! ${firstName} ${lastName}`}</h2>

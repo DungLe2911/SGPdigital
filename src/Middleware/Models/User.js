@@ -7,19 +7,32 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
+        type: String,
+        required: true
+    },
     role: {
         type: String,
         enum: ["QC", "Supervisor", "Admin"],
         default: "QC",
-        required: true
-    }, 
-    machine:{
-        type: String,
-        enum: ["Picking", "Satake", "LMC", "Blower", "Sample", "Buhler"],
-        default: "Picking",
-        required: true
-    }
-},{
+    },
+    shift: {
+        type: Number,
+        enum: [1, 2, 3],
+    },
+    assignedMachines: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Machine',
+    }],
+    active: {
+        type: Boolean,
+        default: true
+    },
+}, {
     timestamps: true
 });
 

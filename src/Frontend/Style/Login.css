@@ -7,6 +7,10 @@
     gap: 10px
 }
 
+.programTitle{
+    font-size: 20px;
+}
+
 .loginFrom{
     display: flex;
     justify-content: center;

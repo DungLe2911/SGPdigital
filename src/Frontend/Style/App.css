@@ -5,6 +5,15 @@
   unicode-bidi: isolate;
 }
 
+.toastNotification{
+  /* position: fixed;
+  height: fit-content;
+  background-color: red;
+  z-index: 1;
+  width: 50%;
+  right: 0; */
+}
+
 @media (min-width: 580px){
   .App{
     /* margin-bottom: 100px; */
@@ -12,19 +21,20 @@
   }
 }
 
-@media(min-width: 1024px){
+/* @media(min-width: 1024px){
   .App{
-    /* margin-bottom: 60px; */
+    margin-bottom: 60px;
   }
 
   .pageContent{
-    /* margin: auto; */
+    margin: auto;
     position: relative;
-    width: max-content;
+    min-width: 75%;
+    width: 75%;
   }
-}
+} */
 
-@media(min-width: 1250px){
+@media(min-width: 1024px){
   .App{
     align-self: stretch;
     display: flex;

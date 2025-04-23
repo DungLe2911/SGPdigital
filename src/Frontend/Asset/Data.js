@@ -8,25 +8,25 @@ const menuItem = [
         name:"QC",
         icon: FaRegular.faFile,
         type: "FontAwesome",
-        path: "/QC"
+        path: "/qc"
     },
     {
         name: "Lookup",
         icon: FaSolid.faMagnifyingGlass,
         type: "FontAwesome", 
-        path: "/Lookup"
+        path: "/lookup"
     },
     {
         name: "Manage",
         icon: FaSolid.faPeopleRoof,
         type: "FontAwesome",
-        path: "/Manage"
+        path: "/manage"
     },
     {
         name: "Report",
         icon: MuiSolid['Assessment'],
         type: "MUI",
-        path: "/Report"
+        path: "/report"
     }
 ]
 

@@ -6,6 +6,7 @@ import Menu from './Frontend/Page/Menu.js';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
 import { setupApiClient } from './Frontend/Utils/apiClient.js';
 import PageHeader from './Frontend/Component/PageHeader.js';
+import PageNotFound from './Frontend/Page/NotFound.js';
 
 function App() {
     const navigate = useNavigate();
@@ -13,7 +14,8 @@ function App() {
     const location = useLocation();
     useEffect(() => {
       setupApiClient({ navigate, toast });
-      if(location.pathname !== '/'){
+      const allowHeader = ['/menu', '/qc', '/manage', '/report' , '/lookup'];
+      if(allowHeader.includes(location.pathname) ){
         setDisplayHeader(true);
       }else{
         setDisplayHeader(false);
@@ -25,10 +27,7 @@ function App() {
         await new Promise(resolve => setTimeout(resolve, 50));
         const app = document.querySelector('.App');
         const header = document.querySelector('.headerContainer');
-        console.log(app)
-        console.log(header)
         if (app && header) {
-          console.log("wedfwqefwef")
           const headerHeight = header.getBoundingClientRect().height + 10;
           app.style.marginTop = `${headerHeight}px`;
         }
@@ -44,13 +43,13 @@ function App() {
   return (
     <div className='App'>
       {displayHeader? <PageHeader /> : <></>}
-      <ToastContainer position='top-right' autoClose={3000} hideProgressBar ={false} theme='light' transition={Bounce} pauseOnHover={false}/>
+      <ToastContainer className='toastNotification' position='top-right' autoClose={3000} hideProgressBar ={false} theme='light' transition={Bounce} pauseOnHover={false}/>
       <div className='pageContent'>
         <Routes>
           <Route path='/' element={<Login />}/>
           <Route path='/menu' element={<Menu />}/>
+          <Route path='*' element={<PageNotFound />}/>
           {/* <Route />
-          <Route />
           <Route /> */}
         </Routes>
       </div>

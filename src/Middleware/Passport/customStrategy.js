@@ -11,6 +11,12 @@ const customStrategy = new CustomStrategy.Strategy(async (req, done) => {
             console.log("Searching for username:", username);
             user = await User.findOne({ "username": username });
             if (user) {
+                if(!user.active){
+                    const message = `${username} is inactive! Please contact supervisor`
+                    console.log(message);
+                    const err= new Error(message);
+                    return done(err);
+                }
                 const token = jwt.sign(
                     {
                         id: user._id.toString(),

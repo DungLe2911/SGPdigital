@@ -1,15 +1,19 @@
 import mongoose from "mongoose";
 
 const machineSchema = new mongoose.Schema({
-    machine: {
+    name: {
         type: String,
-        enum: ["Picking", "Satake", "LMC", "Blower", "Sample", "Buhler"],
         required: true
     },
-    lineNumber: {
-        type: Number,
-        required: true
-    }
+    areaType:{
+        type: String,
+        enum: ['Picking', 'Machine', 'Sample'],
+        reuired: true
+    },
+    machine:{
+        type: String,
+        enum: ['LMC', 'Satake', 'Best', 'Buhler'],
+    },
 });
 
 const Machine = mongoose.model('Machine', machineSchema);

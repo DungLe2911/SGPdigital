@@ -93,3 +93,7 @@
     color: var(--light-gray);
     font-size: 1.55rem;
 }
+
+.headerLogo:hover{
+    cursor: pointer;
+}
