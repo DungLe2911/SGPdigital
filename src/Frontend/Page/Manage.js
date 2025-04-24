@@ -4,7 +4,7 @@ import '../Style/Manage.css';
 import { useState, useEffect } from 'react';
 
 export default function Manage() {
-    const [value, setValue] = useState("1");
+    const [curTab, setCurTab] = useState("1");
     const [width, setWidth] = useState(window.innerWidth);
     const [userList, setUserList] = useState([]);
 
@@ -15,46 +15,56 @@ export default function Manage() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-        if (newValue === "1") {
+    const handleTabChange = (event, newTab) => {
+        setCurTab(newTab);
+        if (newTab === "1") {
 
-        } else if (newValue === "2") {
+        } else if (newTab === "2") {
             const temp = [
                 {
-                  _id: "68043fd2629817501c35862a",
-                  username: "rle",
-                  role: "admin",
-                  machine: "Picking",
-                  firstName: "Dung",
-                  lastName: "Le",
-                  active: false,
+                    _id: "68043fd2629817501c35862a",
+                    username: "rle",
+                    role: "admin",
+                    machine: "Picking",
+                    firstName: "Dung",
+                    lastName: "Le",
+                    active: false,
                 },
                 {
-                  _id: "6807a82350b34c6f38ae3227",
-                  username: "dwade",
-                  role: "admin",
-                  machine: "Picking",
-                  firstName: "Daniel",
-                  lastName: "Wade",
-                  active: true,
+                    _id: "6807a82350b34c6f38ae3227",
+                    username: "dwade",
+                    role: "admin",
+                    machine: "Picking",
+                    firstName: "Daniel",
+                    lastName: "Wade",
+                    active: true,
                 },
                 {
-                  _id: "6807e14c50b34c6f38ae3228",
-                  username: "jcruz",
-                  role: "QC",
-                  machine: "picking",
-                  firstName: "Jacinto",
-                  lastName: "Cruz",
-                  active: false,
+                    _id: "6807e14c50b34c6f38ae3228",
+                    username: "jcruz",
+                    role: "QC",
+                    machine: "picking",
+                    firstName: "Jacinto",
+                    lastName: "Cruz",
+                    active: false,
                 },
-              ];
+            ];
             setUserList(temp);
         } else {
 
         }
     };
 
+
+    const handleInputChange = (event, change) => {
+
+    }
+
+    document.addEventListener('keydown', function(e){
+        // if(e.key === 'Enter'){
+        //     if()
+        // }
+    })
     return (
         <>
             {width < 700 ? (
@@ -67,9 +77,9 @@ export default function Manage() {
             ) : (
                 <div className='managePageContainer'>
                     <Box>
-                        <TabContext value={value}>
+                        <TabContext value={curTab}>
                             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                <TabList onChange={handleChange} aria-label="good job">
+                                <TabList onChange={handleTabChange} aria-label="good job">
                                     <Tab label="Machine Setting" value="1" />
                                     <Tab label="User Setting" value="2" />
                                     <Tab label="Item Three" value="3" />
@@ -79,7 +89,8 @@ export default function Manage() {
                             <TabPanel value="2">
                                 <Autocomplete
                                     disablePortal
-                                    options={userList}
+                                    options={userList.sort((a, b) => -b.firstName.localeCompare(a.firstName))}
+                                    groupBy={(option) => option.firstName.charAt(0).toUpperCase()}
                                     autoHighlight
                                     getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
                                     renderOption={(props, option) => {
@@ -88,22 +99,23 @@ export default function Manage() {
                                             <Box
                                                 key={key}
                                                 component="li"
-                                                sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
                                                 {...optionProps}
                                             >
                                                 {option.firstName} {option.lastName}
                                             </Box>
                                         );
                                     }}
-
                                     renderInput={(params) => (
                                         <TextField
+
+                                            onChange={handleInputChange}
                                             {...params}
                                             label="Choose a user to update"
-                                            autoComplete="new-password" // Correct place for this
+                                            autoComplete="new-password"
                                         />
                                     )}
                                 />
+                                <div className='manageUserDivider'>OR</div>
                             </TabPanel>
                             <TabPanel value="3">Item Three</TabPanel>
                         </TabContext>
