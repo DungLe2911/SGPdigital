@@ -1,0 +1,21 @@
+.ManagePageWarning{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+
+.managePageTitle{
+    font-size: 5vw;
+    font-weight: 500;
+}
+
+.managePageTitleText{
+    font-size: 2vw
+}
+
+/* -------------------------------------------------- */
+
+.managePageContainer{
+}

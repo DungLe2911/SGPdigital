@@ -42,7 +42,7 @@ export default function PageHeader() {
                     <figure onClick={()=>{handleClickLogo()}} className='headerLogo'>
                         <img src={logo} alt='Sotuh Georgia Pecan Co. Logo' />
                     </figure>
-                    <h2 className='headerText'>{`Welcome! ${firstName} ${lastName}`}</h2>
+                    <h2 className='headerText'>{`${firstName} ${lastName}`}</h2>
                 </div>
                 <div className="menuToggle">
                     <input type="checkbox" id="menu-toggle" />
