@@ -54,28 +54,28 @@ recordSchema.pre('validate', async function (next) {
         const areaType = machine.areaType?.toLowerCase();
         const machineType = machine.machine?.toLowerCase();
 
-        // Conditional validations
-        if (areaType === 'picking') {
-            if (record.lineNumber == null || !record.picker || !record.trackingNumber) {
-                return next(new Error('Picking requires lineNumber, picker, and trackingNumber.'));
-            }
-        } else if (machineType === 'lmc') {
-            if (record.lineNumber == null) {
-                return next(new Error('LMC requires lineNumber.'));
-            }
-        } else if (machineType === 'satake') {
-            if (record.lineNumber == null || !record.trackingNumber) {
-                return next(new Error('Satake requires lineNumber and trackingNumber.'));
-            }
-        } else if (machineType === 'buhler') {
-            if (record.lineNumber == null) {
-                return next(new Error('Buhler requires lineNumber.'));
-            }
-        } else if (areaType === 'sample') {
-            if (!record.trackingNumber) {
-                return next(new Error('Sample requires trackingNumber.'));
-            }
+        const missing = field => record[field] == null || record[field] === '';
+
+        if (areaType === 'picking' && (missing('lineNumber') || missing('picker') || missing('trackingNumber'))) {
+            return next(new Error('Picking requires lineNumber, picker, and trackingNumber.'));
         }
+
+        if (machineType === 'lmc' && missing('lineNumber')) {
+            return next(new Error('LMC requires lineNumber.'));
+        }
+
+        if (machineType === 'satake' && (missing('lineNumber') || missing('trackingNumber'))) {
+            return next(new Error('Satake requires lineNumber and trackingNumber.'));
+        }
+
+        if (machineType === 'buhler' && missing('lineNumber')) {
+            return next(new Error('Buhler requires lineNumber.'));
+        }
+
+        if (areaType === 'sample' && missing('trackingNumber')) {
+            return next(new Error('Sample requires trackingNumber.'));
+        }
+
         next();
     } catch (err) {
         next(err);

@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -24,10 +23,12 @@ const userSchema = new mongoose.Schema({
         type: Number,
         enum: [1, 2, 3],
     },
-    assignedMachines: [{
+
+    assignedAreas: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Machine',
+        ref: 'Area',
     }],
+
     active: {
         type: Boolean,
         default: true
