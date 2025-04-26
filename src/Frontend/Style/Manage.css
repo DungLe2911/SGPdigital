@@ -59,9 +59,29 @@
     height: fit-content;
 }
 
-/* .createAccoutBtnContainer{
-    width: 100%;
+.accountInfoContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.userInfoBtnContainer{
+    display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: fit-content;
+    gap: 10px;
+    margin: 10px 0px;
+}
+
+.roleContainer{
     display: flex;
-} */
+    flex-direction: row;
+    width: 100%;
+    height: fit-content;
+    align-items: end;
+    gap: 10px
+}

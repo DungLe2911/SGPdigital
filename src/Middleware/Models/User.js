@@ -24,9 +24,9 @@ const userSchema = new mongoose.Schema({
         enum: [1, 2, 3],
     },
 
-    assignedAreas: [{
+    assignedMachine: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Area',
+        ref: 'Machine',
     }],
 
     active: {

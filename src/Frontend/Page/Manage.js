@@ -1,58 +1,141 @@
-import { Autocomplete, Box, Button, Switch, Tab, TextField } from '@mui/material';
+import { Box, Tab } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import '../Style/Manage.css';
 import { useState, useEffect } from 'react';
+import ManageUser from '../Component/ManageUser.js';
+import ManageMachine from '../Component/ManageMachine.js';
 
 export default function Manage() {
     const [curTab, setCurTab] = useState("1");
     const [width, setWidth] = useState(window.innerWidth);
     const [userList, setUserList] = useState([]);
-    const [selectedUser, setSelectedUser] = useState(null); // control selected value
-    const [inputValue, setInputValue] = useState('');
-    const [userInfo, setUserInfo] = useState(null)// the actual selected user
+    const [areaList, setAreaList] = useState([]);
+    const [machineList, setMachineList] = useState([]);
 
     // Optional: Handle window resizing
     useEffect(() => {
         const handleResize = () => setWidth(window.innerWidth);
         window.addEventListener("resize", handleResize);
+        const areaMockData = [
+            { _id: "60d21b4667d0d8992e610c1a", type: "Picking" },
+            { _id: "60d21b4667d0d8992e610c1b", type: "Machine" },
+            { _id: "60d21b4667d0d8992e610c1c", type: "Sample" }
+          ];
+        setAreaList(areaMockData);
+        
+        const machineMockData = [
+            // Picking Lines (8 lines)
+            { _id: "60d21b4667d0d8992e610c1d", name: "Picking Line 1", area: "60d21b4667d0d8992e610c1a" },
+            { _id: "60d21b4667d0d8992e610c1e", name: "Picking Line 2", area: "60d21b4667d0d8992e610c1a" },
+            { _id: "60d21b4667d0d8992e610c1f", name: "Picking Line 3", area: "60d21b4667d0d8992e610c1a" },
+            { _id: "60d21b4667d0d8992e610c20", name: "Picking Line 4", area: "60d21b4667d0d8992e610c1a" },
+            { _id: "60d21b4667d0d8992e610c21", name: "Picking Line 5", area: "60d21b4667d0d8992e610c1a" },
+            { _id: "60d21b4667d0d8992e610c22", name: "Picking Line 6", area: "60d21b4667d0d8992e610c1a" },
+            { _id: "60d21b4667d0d8992e610c23", name: "Picking Line 7", area: "60d21b4667d0d8992e610c1a" },
+            { _id: "60d21b4667d0d8992e610c24", name: "Picking Line 8", area: "60d21b4667d0d8992e610c1a" },
+            
+            // Satake 1-5
+            { _id: "60d21b4667d0d8992e610c25", name: "Satake 1", area: "60d21b4667d0d8992e610c1b", groupType: "Satake" },
+            { _id: "60d21b4667d0d8992e610c26", name: "Satake 2", area: "60d21b4667d0d8992e610c1b", groupType: "Satake" },
+            { _id: "60d21b4667d0d8992e610c27", name: "Satake 3", area: "60d21b4667d0d8992e610c1b", groupType: "Satake" },
+            { _id: "60d21b4667d0d8992e610c28", name: "Satake 4", area: "60d21b4667d0d8992e610c1b", groupType: "Satake" },
+            { _id: "60d21b4667d0d8992e610c29", name: "Satake 5", area: "60d21b4667d0d8992e610c1b", groupType: "Satake" },
+            
+            // Buhler 1-2
+            { _id: "60d21b4667d0d8992e610c2a", name: "Buhler 1", area: "60d21b4667d0d8992e610c1b", groupType: "Buhler" },
+            { _id: "60d21b4667d0d8992e610c2b", name: "Buhler 2", area: "60d21b4667d0d8992e610c1b", groupType: "Buhler" },
+            
+            // LMC 1-4
+            { _id: "60d21b4667d0d8992e610c2c", name: "LMC 1", area: "60d21b4667d0d8992e610c1b", groupType: "LMC" },
+            { _id: "60d21b4667d0d8992e610c2d", name: "LMC 2", area: "60d21b4667d0d8992e610c1b", groupType: "LMC" },
+            { _id: "60d21b4667d0d8992e610c2e", name: "LMC 3", area: "60d21b4667d0d8992e610c1b", groupType: "LMC" },
+            { _id: "60d21b4667d0d8992e610c2f", name: "LMC 4", area: "60d21b4667d0d8992e610c1b", groupType: "LMC" },
+            
+            // Best 1
+            { _id: "60d21b4667d0d8992e610c30", name: "Best 1", area: "60d21b4667d0d8992e610c1b", groupType: "Best" }
+          ];
+        setMachineList(machineMockData);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
     const handleTabChange = (event, newTab) => {
         setCurTab(newTab);
         if (newTab === "1") {
-
+            
         } else if (newTab === "2") {
             //need pulling list of user later
             const temp = [
                 {
-                    username: "jsmith42",
-                    firstName: "John",
-                    lastName: "Smith",
-                    role: "QC",
-                    shift: 1,
-                    assignedAreas: ["64a2a8f73c91e453b5f9e8d1", "64a2a8f73c91e453b5f9e8d3"],
-                    active: true
+                  _id: "60d21b4667d0d8992e610c85",
+                  username: "jsmith42",
+                  firstName: "John",
+                  lastName: "Smith",
+                  role: "QC",
+                  shift: 1,
+                  assignedMachine: ["60d21b4667d0d8992e610c1d", "60d21b4667d0d8992e610c25", "60d21b4667d0d8992e610c2c"],
+                  active: true
                 },
                 {
-                    username: "mjohnson85",
-                    firstName: "Maria",
-                    lastName: "Johnson",
-                    role: "Supervisor",
-                    shift: 2,
-                    assignedAreas: ["64a2a8f73c91e453b5f9e8d2", "64a2a8f73c91e453b5f9e8d4", "64a2a8f73c91e453b5f9e8d5"],
-                    active: true
+                  _id: "60d21b4667d0d8992e610c86",
+                  username: "mjohnson85",
+                  firstName: "Maria",
+                  lastName: "Johnson",
+                  role: "Supervisor",
+                  shift: 2,
+                  assignedMachine: ["60d21b4667d0d8992e610c1e", "60d21b4667d0d8992e610c26", "60d21b4667d0d8992e610c2a", "60d21b4667d0d8992e610c2d", "60d21b4667d0d8992e610c30"],
+                  active: true
                 },
                 {
-                    username: "agarcia123",
-                    firstName: "Alex",
-                    lastName: "Garcia",
-                    role: "Admin",
-                    shift: 3,
-                    assignedAreas: [],
-                    active: false
+                  _id: "60d21b4667d0d8992e610c87",
+                  username: "agarcia123",
+                  firstName: "Alex",
+                  lastName: "Garcia",
+                  role: "Admin",
+                  shift: 3,
+                  assignedMachine: [],
+                  active: false
+                },
+                {
+                  _id: "60d21b4667d0d8992e610c88",
+                  username: "rwilliams",
+                  firstName: "Robert",
+                  lastName: "Williams",
+                  role: "Operator",
+                  shift: 1,
+                  assignedMachine: ["60d21b4667d0d8992e610c1f", "60d21b4667d0d8992e610c27"],
+                  active: true
+                },
+                {
+                  _id: "60d21b4667d0d8992e610c89",
+                  username: "ljones",
+                  firstName: "Lisa",
+                  lastName: "Jones",
+                  role: "QC",
+                  shift: 2,
+                  assignedMachine: ["60d21b4667d0d8992e610c20", "60d21b4667d0d8992e610c28", "60d21b4667d0d8992e610c2b", "60d21b4667d0d8992e610c2e"],
+                  active: true
+                },
+                {
+                  _id: "60d21b4667d0d8992e610c8a",
+                  username: "mbrown",
+                  firstName: "Michael",
+                  lastName: "Brown",
+                  role: "Technician",
+                  shift: 3,
+                  assignedMachine: ["60d21b4667d0d8992e610c21", "60d21b4667d0d8992e610c22", "60d21b4667d0d8992e610c23", "60d21b4667d0d8992e610c29", "60d21b4667d0d8992e610c2f"],
+                  active: true
+                },
+                {
+                  _id: "60d21b4667d0d8992e610c8b",
+                  username: "dlee",
+                  firstName: "David",
+                  lastName: "Lee",
+                  role: "Supervisor",
+                  shift: 1,
+                  assignedMachine: ["60d21b4667d0d8992e610c24", "60d21b4667d0d8992e610c1d", "60d21b4667d0d8992e610c2a"],
+                  active: false
                 }
-            ];
+              ];
             setUserList(temp);
         } else {
 
@@ -79,94 +162,15 @@ export default function Manage() {
                                 </TabList>
                             </Box>
                             <TabPanel value="1">
-                                
+                                <ManageMachine />
                             </TabPanel>
                             <TabPanel value="2">
-                                <h2 className='panelTitle'>Choose a user to update </h2>
-                                <Autocomplete
-                                    disablePortal
-                                    value={selectedUser}
-                                    onChange={(event, newValue) => {
-                                        setSelectedUser(newValue);
-                                    }}
-                                    inputValue={inputValue}
-                                    onInputChange={(event, newInputValue) => {
-                                        setInputValue(newInputValue);
-                                    }}
-                                    options={userList.sort((a, b) => -b.firstName.localeCompare(a.firstName))}
-                                    groupBy={(option) => option.firstName.charAt(0).toUpperCase()}
-                                    autoHighlight
-                                    getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
-                                    renderOption={(props, option) => {
-                                        const { key, ...optionProps } = props;
-                                        return (
-                                            <Box key={key} component="li" {...optionProps}>
-                                                {option.firstName} {option.lastName}
-                                            </Box>
-                                        );
-                                    }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="User List"
-                                            autoComplete="new-password"
-                                            onKeyDown={(e) => {
-                                                if (e.key === 'Enter') {
-                                                    const isDropdownOpen = document.querySelector('.MuiAutocomplete-popper');
-                                                    if (!isDropdownOpen) {
-                                                        e.preventDefault();
-                                                        console.log('Input submitted:', inputValue);
-                                                        setUserInfo(selectedUser)
-                                                        console.log(selectedUser)
-                                                        // Reset values
-                                                        setSelectedUser(null);
-                                                        setInputValue('');
-                                                    } else {
-                                                        console.log('Autocomplete option selected');
-                                                    }
-                                                }
-                                            }}
-                                        />
-                                    )}
+                                <ManageUser 
+                                    userList={userList}
+                                    machineList={machineList}
+                                    areaList={areaList}
+                                    setUserList={setUserList}
                                 />
-                                <div className='manageUserDivider'>OR</div>
-                                <div className='createAccountContainer'>
-                                    <h2 className='panelTitle'>Create an account </h2>
-                                    <div className='createAccoutFields'>
-                                        <TextField required disabled={userInfo !== null} label="Username" variant='outlined' />
-                                        <TextField required disabled={userInfo !== null} label="First Name" variant='outlined' />
-                                        <TextField required disabled={userInfo !== null} label="Last Name" variant='outlined' />
-                                    </div>
-                                    <div className='createAccoutBtnContainer'>
-                                        <Button variant='contained'  >Create Account</Button>
-
-                                    </div>
-                                </div>
-                                {userInfo ?
-                                    <div>
-                                        <div className='manageUserDivider'> User Info </div>
-                                        <Switch
-                                            checked={false}
-                                            sx={{
-                                                '& .MuiSwitch-switchBase.Mui-checked': {
-                                                    color: 'primary.main', // Button color when checked
-                                                    '& + .MuiSwitch-track': {
-                                                        backgroundColor: 'primary.main', // Background color when checked
-                                                    },
-                                                },
-                                                '& .MuiSwitch-switchBase': {
-                                                    color: 'grey', // Button color when unchecked
-                                                },
-                                                '& .MuiSwitch-track': {
-                                                    backgroundColor: 'lightgrey', // Background color when unchecked
-                                                },
-                                                // More customizations for size, shape, etc
-                                            }}
-                                        />
-
-                                    </div> :
-                                    <></>
-                                }
                             </TabPanel>
                             <TabPanel value="3">Item Three</TabPanel>
                         </TabContext>
