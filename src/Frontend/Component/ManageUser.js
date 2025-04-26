@@ -5,6 +5,7 @@ import { ExpandMore } from '@mui/icons-material';
 import '../Style/Font.css'
 import { green } from '@mui/material/colors';
 import '../Style/Manage.css';
+import { createUser, saveUser } from '../Utils/request.js';
 
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
@@ -65,7 +66,7 @@ export default function ManageUser(props) {
         }
     }
 
-    const handleSaveChange = () => {
+    const handleSaveChange = async () => {
         const object = userInfo;
         let count = 0;
         if (username !== object.username) count += 1;
@@ -84,12 +85,18 @@ export default function ManageUser(props) {
             object.role = role;
             object.assignedMachine = assignedMachine;
             object.active = active;
-            //get list without the current object being changed
-            let list = props.userList.filter(item => item._id !== userInfo._id);
-            //add new changes back into the list
-            list = [...list, object];
-            //update changes
-            props.setUserList(list);
+
+            try {
+                saveUser(object);
+                //get list without the current object being changed
+                let list = props.userList.filter(item => item._id !== userInfo._id);
+                //add new changes back into the list
+                list = [...list, object];
+                //update changes
+                props.setUserList(list);
+            } catch (err) {
+
+            }
         }
         resetInfoStat();
         setUserInfo(null);
@@ -100,17 +107,19 @@ export default function ManageUser(props) {
         setUserInfo(null);
     }
 
-    const handleCreateAccount = () => {
+    const handleCreateAccount = async () => {
         const object = {};
         //update chagnes to temp object;
         object.username = username;
         object.firstName = firstName;
         object.lastName = lastName;
-        object.shift = shift;
-        object.role = 'QC';
-        object.assignedMachine = assignedMachine;
-        object.active = true;
-        handleSelectUser(object);
+        try {
+            const response = await createUser(object);
+            const savedUser = response.data;
+            handleSelectUser(savedUser);
+        } catch (err) {
+
+        }
     }
 
     return (
@@ -209,7 +218,7 @@ export default function ManageUser(props) {
                                     <RadioGroup row value={role} onChange={(e) => setRole(e.target.value)}>
                                         <FormControlLabel value="QC" control={<Radio />} label="QC" />
                                         <FormControlLabel value="Supervisor" control={<Radio />} label="Supervisor" />
-                                        <FormControlLabel value="Admin" control={<Radio />} label="Admin" />
+                                        <FormControlLabel value="admin" control={<Radio />} label="Admin" />
                                     </RadioGroup>
 
                                 </div>
@@ -287,12 +296,11 @@ export default function ManageUser(props) {
                                 </Box>
                             </div>
                         </AccordionDetails>
-                        <div className='userInfoBtnContainer'>
-                            <Button variant='contained' color='success' onClick={handleSaveChange}>Save changes</Button>
-                            <Button variant='contained' onClick={handleCancelChange}>Cancel</Button>
-                        </div>
                     </Accordion>
-
+                    <div className='userInfoBtnContainer'>
+                        <Button variant='contained' color='success' onClick={handleSaveChange}>Save changes</Button>
+                        <Button variant='contained' onClick={handleCancelChange}>Cancel</Button>
+                    </div>
                 </div>
             )}
         </div>

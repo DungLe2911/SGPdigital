@@ -1,8 +1,10 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import cookieParser from 'cookie-parser'; 
+import cookieParser from 'cookie-parser';
 import os from 'os';
+import AppError from './Utils/Error.js';
+import userRoute from './Controller/userRoute.js';
 
 const app = express();
 const PORT = 8080;
@@ -47,14 +49,14 @@ app.use((req, res, next) => {
   next(); // Pass control to the next middleware or route handler
 });
 
-async function appInitiallization(){
-  try{
+async function appInitiallization() {
+  try {
     //connection to mongo db
     mongoose
-    .connect(mongStr)
-    .then(
-        ()=>{console.log(`Successfully connect to ${mongStr}`)}, 
-        err =>{console.error(`Error connecting to ${mongStr}: ${err}`)})
+      .connect(mongStr)
+      .then(
+        () => { console.log(`Successfully connect to ${mongStr}`) },
+        err => { console.error(`Error connecting to ${mongStr}: ${err}`) })
 
     // setting cors for connection from frontend
     const allowedOrigins = [
@@ -62,7 +64,7 @@ async function appInitiallization(){
       'http://localhost:3000',
     ];
     const IpAddr = getLocalIP();
-    if(IpAddr !== null){
+    if (IpAddr !== null) {
       allowedOrigins.push(`http://${IpAddr}:3000`)
     }
     const corsOptions = {
@@ -76,7 +78,7 @@ async function appInitiallization(){
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
       allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-XSRF-TOKEN', 'Accept', 'Origin'],
       credentials: true,
-      optionsSuccessStatus: 200 
+      optionsSuccessStatus: 200
     };
     app.options('/', (req, res) => {
       console.log('in OPTIONS request for ALL routes')
@@ -94,11 +96,22 @@ async function appInitiallization(){
 
     passportConfig(app);
     console.log('-----------------------------------------')
-    app
-    .use('/auth', authRoute)
-    .listen(PORT, '0.0.0.0', () => {console.log(`Server running at http://localhost:${PORT}`)});
+    app.use('/auth', authRoute);
+    app.use('/users', userRoute)
+    app.all('/*splat', (req, res, next) => {// universal route for catching all the requests that is not specified above
+        // return res.status(404).json({message: `Cannot find ${req.originalUrl} route with ${req.method} method on server`});
+        next(new AppError(`Cannot find ${req.originalUrl} route with ${req.method} method on server`, 404));
+      });
+    app.use((error, req, res, next) => { //global error handler
+        error.statusCode = error.statusCode || 500;
+        console.log(error.message)
+        return res.status(error.statusCode).json({
+          message: `${error.message}`
+        })
+      });
+    app.listen(PORT, '0.0.0.0', () => { console.log(`Server running at http://localhost:${PORT}`) });
 
-  }catch(error){
+  } catch (error) {
     console.log("Unexpected error occured during initiallization")
     console.log(error.message)
     process.exit(1);

@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema({
     shift: {
         type: Number,
         enum: [1, 2, 3],
+        default: 1
     },
 
     assignedMachine: [{
