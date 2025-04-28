@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 const areaSchema = new mongoose.Schema({
     type: {
         type: String,

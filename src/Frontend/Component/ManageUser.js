@@ -6,6 +6,7 @@ import '../Style/Font.css'
 import { green } from '@mui/material/colors';
 import '../Style/Manage.css';
 import { createUser, saveUser } from '../Utils/request.js';
+import { toast } from 'react-toastify';
 
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
@@ -108,17 +109,21 @@ export default function ManageUser(props) {
     }
 
     const handleCreateAccount = async () => {
-        const object = {};
-        //update chagnes to temp object;
-        object.username = username;
-        object.firstName = firstName;
-        object.lastName = lastName;
-        try {
-            const response = await createUser(object);
-            const savedUser = response.data;
-            handleSelectUser(savedUser);
-        } catch (err) {
+        if (username !== '' && firstName !== '' && lastName !== '') {
+            const object = {};
+            //update chagnes to temp object;
+            object.username = username;
+            object.firstName = firstName;
+            object.lastName = lastName;
+            try {
+                const response = await createUser(object);
+                const savedUser = response.data;
+                handleSelectUser(savedUser);
+            } catch (err) {
 
+            }
+        }else{
+            toast.error('All required fields must be filded out to create an account')
         }
     }
 
@@ -244,7 +249,7 @@ export default function ManageUser(props) {
                                         Machine Access List By Area
                                     </Typography>
 
-                                    <Box sx={{ border: '1px solid #ccc', borderRadius: '4px', padding: '10px' }}>
+                                    <Box sx={{ border: '1px solid #ccc', borderRadius: '4px', padding: '10px', maxWidth: '100%' }}>
                                         {props.areaList.map((area, indexA) => {
                                             // Machines in the current area
                                             const machinesInArea = props.machineList.filter(
@@ -267,10 +272,11 @@ export default function ManageUser(props) {
 
                                                     {Object.entries(groupMap).map(([groupName, machines]) => (
                                                         <Box key={groupName} sx={{ paddingLeft: '16px', marginBottom: '16px' }}>
-                                                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                                                            <Box sx={{ display: 'grid', gridTemplateColumns:'repeat(5,1fr)', flexWrap: 'wrap', gap: '10px' }}>
                                                                 {machines.map((machine) => (
                                                                     <FormControlLabel
                                                                         key={machine._id}
+                                                       
                                                                         control={
                                                                             <GreenSwitch
                                                                                 {...label}
@@ -283,7 +289,7 @@ export default function ManageUser(props) {
                                                                         }
                                                                         labelPlacement="start"
                                                                         label={machine.name}
-                                                                        sx={{ marginLeft: 0 }}
+                                                                        sx={{width: 'fitContent', marginLeft: 0, whiteSpace:'nowrap' }}
                                                                     />
                                                                 ))}
                                                             </Box>

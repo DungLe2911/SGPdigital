@@ -4,7 +4,8 @@ import '../Style/Manage.css';
 import { useState, useEffect } from 'react';
 import ManageUser from '../Component/ManageUser.js';
 import ManageMachine from '../Component/ManageMachine.js';
-import { authCheck, getAllUser } from '../Utils/request.js';
+import { authCheck, getAllUser, getListArea, getListMachine } from '../Utils/request.js';
+import ModalComponent from '../Component/ModalComponent.js';
 
 export default function Manage() {
   const [curTab, setCurTab] = useState("1");
@@ -12,64 +13,30 @@ export default function Manage() {
   const [userList, setUserList] = useState([]);
   const [areaList, setAreaList] = useState([]);
   const [machineList, setMachineList] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false)
+  const openModal = ()=> setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
 
-  // Optional: Handle window resizing
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
 
-    const checkAuthentication = async () => {
+    const initializeData = async () => {
       try {
-        const response = await authCheck();
-        const isAuth = response.data.isAuthenticated;
-        if (!isAuth) {
+        const authResponse = await authCheck();
+        if (!authResponse.data.isAuthenticated) {
           return;
         }
+        const areaResponse = await getListArea();
+        setAreaList(areaResponse.data);
+        const machineResponse = await getListMachine();
+        setMachineList(machineResponse.data.sort((a,b)=>{return a.name.localeCompare(b.name)}));
       } catch (error) {
-        console.log(error)
+        console.error("Error initializing data:", error);
       }
     };
-    checkAuthentication();
-
-    const areaMockData = [
-      { _id: "60d21b4667d0d8992e610c1a", type: "Picking" },
-      { _id: "60d21b4667d0d8992e610c1b", type: "Machine" },
-      { _id: "60d21b4667d0d8992e610c1c", type: "Sample" }
-    ];
-    setAreaList(areaMockData);
-
-    const machineMockData = [
-      // Picking Lines (8 lines)
-      { _id: "60d21b4667d0d8992e610c1d", name: "Picking Line 1", area: "60d21b4667d0d8992e610c1a" },
-      { _id: "60d21b4667d0d8992e610c1e", name: "Picking Line 2", area: "60d21b4667d0d8992e610c1a" },
-      { _id: "60d21b4667d0d8992e610c1f", name: "Picking Line 3", area: "60d21b4667d0d8992e610c1a" },
-      { _id: "60d21b4667d0d8992e610c20", name: "Picking Line 4", area: "60d21b4667d0d8992e610c1a" },
-      { _id: "60d21b4667d0d8992e610c21", name: "Picking Line 5", area: "60d21b4667d0d8992e610c1a" },
-      { _id: "60d21b4667d0d8992e610c22", name: "Picking Line 6", area: "60d21b4667d0d8992e610c1a" },
-      { _id: "60d21b4667d0d8992e610c23", name: "Picking Line 7", area: "60d21b4667d0d8992e610c1a" },
-      { _id: "60d21b4667d0d8992e610c24", name: "Picking Line 8", area: "60d21b4667d0d8992e610c1a" },
-
-      // Satake 1-5
-      { _id: "60d21b4667d0d8992e610c25", name: "Satake 1", area: "60d21b4667d0d8992e610c1b", groupType: "Satake" },
-      { _id: "60d21b4667d0d8992e610c26", name: "Satake 2", area: "60d21b4667d0d8992e610c1b", groupType: "Satake" },
-      { _id: "60d21b4667d0d8992e610c27", name: "Satake 3", area: "60d21b4667d0d8992e610c1b", groupType: "Satake" },
-      { _id: "60d21b4667d0d8992e610c28", name: "Satake 4", area: "60d21b4667d0d8992e610c1b", groupType: "Satake" },
-      { _id: "60d21b4667d0d8992e610c29", name: "Satake 5", area: "60d21b4667d0d8992e610c1b", groupType: "Satake" },
-
-      // Buhler 1-2
-      { _id: "60d21b4667d0d8992e610c2a", name: "Buhler 1", area: "60d21b4667d0d8992e610c1b", groupType: "Buhler" },
-      { _id: "60d21b4667d0d8992e610c2b", name: "Buhler 2", area: "60d21b4667d0d8992e610c1b", groupType: "Buhler" },
-
-      // LMC 1-4
-      { _id: "60d21b4667d0d8992e610c2c", name: "LMC 1", area: "60d21b4667d0d8992e610c1b", groupType: "LMC" },
-      { _id: "60d21b4667d0d8992e610c2d", name: "LMC 2", area: "60d21b4667d0d8992e610c1b", groupType: "LMC" },
-      { _id: "60d21b4667d0d8992e610c2e", name: "LMC 3", area: "60d21b4667d0d8992e610c1b", groupType: "LMC" },
-      { _id: "60d21b4667d0d8992e610c2f", name: "LMC 4", area: "60d21b4667d0d8992e610c1b", groupType: "LMC" },
-
-      // Best 1
-      { _id: "60d21b4667d0d8992e610c30", name: "Best 1", area: "60d21b4667d0d8992e610c1b", groupType: "Best" }
-    ];
-    setMachineList(machineMockData);
+    initializeData();
+    
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -78,8 +45,14 @@ export default function Manage() {
     if (newTab === "1") {
 
     } else if (newTab === "2") {
-      const response = await getAllUser();
-      setUserList(response.data);
+      if (userList.length === 0) {
+        try{
+          const response = await getAllUser();
+          setUserList(response.data);
+        }catch(err){
+
+        }
+      }
     } else {
 
     }
@@ -101,11 +74,15 @@ export default function Manage() {
                 <TabList onChange={handleTabChange} aria-label="good job">
                   <Tab label="Machine Setting" value="1" />
                   <Tab label="User Setting" value="2" />
-                  <Tab label="Item Three" value="3" />
                 </TabList>
               </Box>
               <TabPanel value="1">
-                <ManageMachine />
+                <ManageMachine 
+                  areaList={areaList}
+                  machineList={machineList}
+                  setMachineList={setMachineList}
+                  openModal={openModal}
+                />
               </TabPanel>
               <TabPanel value="2">
                 <ManageUser
@@ -115,9 +92,9 @@ export default function Manage() {
                   setUserList={setUserList}
                 />
               </TabPanel>
-              <TabPanel value="3">Item Three</TabPanel>
             </TabContext>
           </Box>
+          <ModalComponent open={modalOpen} closeModal={closeModal}/>
         </div>
       )}
     </>

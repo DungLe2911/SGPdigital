@@ -1,6 +1,5 @@
 // libraries import
 import express from 'express';
-import passport from 'passport';
 import authenticateJWT from '../Passport/authenticateJWT.js';
 import asyncErrorHandler from '../Utils/asyncErrorHandler.js';
 import User from '../Models/User.js';
@@ -13,13 +12,12 @@ userRoute.route('/')
     //get all users
     .get(authenticateJWT, asyncErrorHandler(async (req, res) => {
         console.log('in /users (GET) all users in database');
-        const messages = await User.find();
-        return res.status(200).json(messages);
+        const users = await User.find();
+        return res.status(200).json(users);
     }))
     .post(authenticateJWT, validateRequest(User.schema), asyncErrorHandler(async (req, res) => {
         console.log('in /users (GET) save a new user in database');
         const payload = req.body
-        console.log(payload)
         const newUser = {
             username: payload.username,
             firstName: payload.firstName,

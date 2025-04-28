@@ -1,6 +1,11 @@
-const machineSchema = new mongoose.Schema({
-    name: { type: String, required: true }, // e.g., "LMC 1", "Satake 3", "Belt 4"
+import mongoose from "mongoose";
 
+const machineSchema = new mongoose.Schema({
+    name: { 
+        type: String,
+        unique: true,
+        required: true 
+    },
     area: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Area',
@@ -9,7 +14,6 @@ const machineSchema = new mongoose.Schema({
 
     groupType: {
         type: String,
-        enum: ['LMC', 'Satake', 'Best', 'Buhler'],
         required: function () {
             // only required if the area is a Machine type
             return this._areaType === 'Machine';

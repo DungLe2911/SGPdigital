@@ -34,4 +34,28 @@ const saveUser = async(payload)=>{
     return response
 }
 
-export {loginUser, authCheck, getAllUser, createUser, saveUser}
+/*-------------------------------- Area -------------------------------------------*/ 
+const getListArea = async()=>{
+    const url = createUrl('/areas');
+    const response = apiClient.get(url, {withCredentials: true});
+    return response;
+}
+
+/*-------------------------------- Machine -------------------------------------------*/ 
+const getListMachine = async()=>{
+    const url = createUrl('/machines');
+    const response = apiClient.get(url, {withCredentials: true});
+    return response;
+}
+
+const addNewMachine = async(payload) =>{
+    const url = createUrl('/machines')
+    const response = apiClient.post(url, payload, {withCredentials: true})
+    return response
+}
+
+export {loginUser, authCheck, 
+    getAllUser, createUser, saveUser,
+    getListArea, 
+    getListMachine, addNewMachine
+}
