@@ -2,6 +2,7 @@
 import express from 'express';
 import passport from 'passport';
 import authenticateJWT from '../Passport/authenticateJWT.js';
+import getRemainingShiftDuration from '../Utils/remainShiftTime.js';
 
 const authRoute = express.Router();  
 
@@ -22,11 +23,12 @@ authRoute.post('/login', passport.authenticate('custom-login', { failWithError: 
   (req, res) => {
     console.log("/login route reached: successful authentication.");
     const {userObject,token} = req.user;
+    const maxAge = getRemainingShiftDuration();
     res.cookie('RichieMiddleRoom', token, {
       httpOnly: true,       // Prevents JavaScript access (XSS protection)
       secure: false,  
       sameSite: 'lax',   // Prevents CSRF 
-      maxAge: 60 * 60 * 1000, // 1 hour
+      maxAge: maxAge,
       path: '/',
     });
     return res.status(200).json({redirect: true, url: `/menu`, message: `login successfully`, userObject})
@@ -41,8 +43,7 @@ authRoute.post('/login', passport.authenticate('custom-login', { failWithError: 
 
 authRoute.get('/test', authenticateJWT, (req, res) => {
   console.log('/auth/test reached.');
-  console.log('Decoded token:', req.user);
-
+  // console.log('Decoded token:', req.user);
   return res.status(200).json({
     isAuthenticated: true,
     user: req.user, // This contains the user data encoded in the token

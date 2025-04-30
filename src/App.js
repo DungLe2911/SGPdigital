@@ -8,6 +8,7 @@ import { setupApiClient } from './Frontend/Utils/apiClient.js';
 import PageHeader from './Frontend/Component/PageHeader.js';
 import PageNotFound from './Frontend/Page/NotFound.js';
 import Manage from './Frontend/Page/Manage.js';
+import QC from './Frontend/Page/QC.js';
 
 function App() {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ function App() {
             <Route path='/' element={<Login />} />
             <Route path='/menu' element={<Menu />} />
             <Route path='/manage' element={<Manage />} />
+            <Route path='/qc' element={<QC />} />
             <Route path='*' element={<PageNotFound />} />
           </Routes>
         </div>
