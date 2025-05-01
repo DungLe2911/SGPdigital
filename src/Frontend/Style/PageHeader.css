@@ -52,43 +52,6 @@
     right: 10px;
 }
 
-.menuToggle input {
-    display: none;
-}
-
-.hamburger-lines {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
-.hamburger-lines .line {
-    display: block;
-    height: 4px;
-    width: 100%;
-    background-color: white;
-    border-radius: 10px;
-    transition: all 0.3s ease-in-out;
-    transform-origin: left;
-}
-
-.menuToggle input:checked~.hamburger-lines .line1 {
-    transform: rotate(45deg);
-    width: 125%;
-}
-
-.menuToggle input:checked~.hamburger-lines .line2 {
-    opacity: 0;
-}
-
-.menuToggle input:checked~.hamburger-lines .line3 {
-    transform: rotate(-45deg);
-    width: 125%;
-}
-
 .headerText{
     color: var(--light-gray);
     font-size: clamp(15px,2vw,2vw + 4px);

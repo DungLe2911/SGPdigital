@@ -2,11 +2,11 @@ import mongoose from 'mongoose';
 
 
 const recordSchema = new mongoose.Schema({
-    timestamp: {
-        type: Date,
-        default: Date.now,
+    name: String,
+    size: {
+        type: String,
+        enum: ['Midget', 'Small', 'Small/Medium', 'Medium', 'Large/Medium', 'Large', 'Extra Large', 'Halves']
     },
-    size: String,
     hardShellCount: Number,
     innerShellCount: Number,
     ribShellCount: Number,

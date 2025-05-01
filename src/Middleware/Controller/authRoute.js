@@ -12,8 +12,8 @@ authRoute.get('/logout', (req, res) => {
   // Clear the JWT cookie
   res.clearCookie('RichieMiddleRoom', {
     httpOnly: true,  // Ensure it's the same settings as when you set the cookie
-    secure: true,    // Ensure cookies set over HTTPS are cleared
-    sameSite: 'none', // Match the sameSite setting
+    secure: false,    // Ensure cookies set over HTTPS are cleared
+    sameSite: 'lax', // Match the sameSite setting
   });
   return res.status(200).json({redirect: true, url: `/`, message: 'logout successfully'})
 });

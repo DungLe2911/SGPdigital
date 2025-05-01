@@ -13,6 +13,12 @@ const authCheck = async(payload)=>{
     return response
 }
 
+const logUserOut = async()=>{
+    const url = createUrl('/auth/logout');
+    const response = apiClient.get(url, {withCredentials: true});
+    return response;
+}
+
 /*-------------------------------- Users -------------------------------------------*/ 
 const getAllUser = async()=>{
     const url = createUrl('/users');
@@ -54,7 +60,7 @@ const addNewMachine = async(payload) =>{
     return response
 }
 
-export {loginUser, authCheck, 
+export {loginUser, authCheck, logUserOut,
     getAllUser, createUser, saveUser,
     getListArea, 
     getListMachine, addNewMachine

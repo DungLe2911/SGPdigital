@@ -1,7 +1,12 @@
 import '../Style/PageHeader.css'
 import logo from '../Asset/logoIcon.png'
+import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
+import { IconButton, Menu, MenuItem } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import { logUserOut } from '../Utils/request.js';
 
 export default function PageHeader() {
     const [firstName, setFirstName] = useState('');
@@ -23,7 +28,7 @@ export default function PageHeader() {
         adjustAppMargin();
         window.addEventListener('resize', adjustAppMargin);
         const user = JSON.parse(localStorage.getItem('user'))
-        if(user){
+        if (user) {
             setFirstName(user.firstName);
             setLastName(user.lastName);
         }
@@ -32,25 +37,42 @@ export default function PageHeader() {
         };
     }, []);
 
-    const handleClickLogo = ()=>{
+    const handleClickLogo = () => {
         navigate('/menu');
+    }
+
+    const handleLogOut = async() => {
+        localStorage.clear();
+        try{
+            await logUserOut();
+        }catch(err){
+
+        }
     }
     return (
         <div className="headerContainer">
             <div className='contentArea'>
                 <div className='leftSide'>
-                    <figure onClick={()=>{handleClickLogo()}} className='headerLogo'>
+                    <figure onClick={() => { handleClickLogo() }} className='headerLogo'>
                         <img src={logo} alt='Sotuh Georgia Pecan Co. Logo' />
                     </figure>
                     <h2 className='headerText'>{`${firstName} ${lastName}`}</h2>
                 </div>
                 <div className="menuToggle">
-                    <input type="checkbox" id="menu-toggle" />
-                    <label htmlFor="menu-toggle" className="hamburger-lines">
-                        <span className="line line1"></span>
-                        <span className="line line2"></span>
-                        <span className="line line3"></span>
-                    </label>
+                    <PopupState variant="popover" popupId="demo-popup-menu">
+                        {(popupState) => (
+                            <React.Fragment>
+                                <IconButton {...bindTrigger(popupState)}>
+                                    <MenuIcon sx={{color: 'white', fontSize:'3rem'}}/>
+                                </IconButton>
+
+                                <Menu {...bindMenu(popupState)}>
+                                    <MenuItem>Profile</MenuItem>
+                                    <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+                                </Menu>
+                            </React.Fragment>
+                        )}
+                    </PopupState>
                 </div>
             </div>
         </div>
