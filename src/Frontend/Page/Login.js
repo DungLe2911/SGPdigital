@@ -45,7 +45,7 @@ export default function Login(){
                 <img src={logo} alt='South Georgia Pecan logo' width={250}/> {/* this is set to 20% 20 max screen width (1250 px) */}
             </figure>
             <h1 className='h1 programTitle'>Middle Room QC Program</h1>
-                <input id='loginInput' type='text' onChange={(e)=>{ setUsername(e.target.value.toLowerCase())}} className='loginInput' placeholder='Username' required name='username'/>
+                <input id='loginInput' autoComplete='off' type='text' onChange={(e)=>{ setUsername(e.target.value.toLowerCase())}} className='loginInput' placeholder='Username' required name='username'/>
                 <button id='loginBtn' className='loginBtn' type='submit' onClick={()=>{handleLogin()}} disabled={LoadingStatus  }>
                     <span>Login</span>
                     {LoadingStatus? <LoadingSpinner />: 

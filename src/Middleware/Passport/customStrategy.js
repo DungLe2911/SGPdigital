@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import User from '../Models/User.js';
 import Machine from '../Models/Machine.js'
+import Area from '../Models/Area.js'
 import CustomStrategy from 'passport-custom';
 import { Error } from 'mongoose';
 import getRemainingShiftDuration from '../Utils/remainShiftTime.js';
@@ -29,7 +30,6 @@ const customStrategy = new CustomStrategy.Strategy(async (req, done) => {
             }
             const remainingShiftTime = getRemainingShiftDuration();
             const expiresIn = Math.floor(remainingShiftTime / 1000)
-            console.log(expiresIn)
             const token = jwt.sign(
                 {
                     id: user._id.toString(),
@@ -41,12 +41,19 @@ const customStrategy = new CustomStrategy.Strategy(async (req, done) => {
                     expiresIn: expiresIn
                 }
             );
-            const machineList = await Machine.find({ _id: { $in: user.assignedMachine } })
+            const machineList = await Machine
+                .find({ _id: { $in: user.assignedMachine } })
+                .populate('area')
+                .lean()
+            const transformedMachines = machineList.map(machine => ({
+                ...machine,
+                area: machine.area.type // Replace area object with just the type value
+            }));
+
             console.log("JWT created successfully");
             const userObject = user.toObject();
             delete userObject.assignedMachine;
-            userObject.assignedMachine = machineList;
-            console.log(userObject)
+            userObject.assignedMachine = transformedMachines;
             return done(null, { userObject, token });
 
         } else {

@@ -1,0 +1,91 @@
+.qcPageContainer {}
+
+.sectionDivider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #555;
+    font-weight: bold;
+}
+
+.sectionDivider::before,
+.sectionDivider::after  {
+    content: '';
+    flex: 1;
+    border-bottom: 2px solid var(--light-gray);
+    margin: 20px 10px;
+}
+
+.qcForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.qcFormInput {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.fullSpan{
+    grid-column: span 2;
+}
+
+
+.productInput {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #555;
+    font-weight: bold;
+}
+
+.divider::before{
+    content: '';
+    flex: 1;
+    border-bottom: 2px solid var(--light-gray);
+    margin: 20px 10px;
+}
+
+.buttonGroup{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+@media (min-width: 500px) {
+    .qcFormInput {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .qcFormInput>* {
+        width: 50%;
+    }
+
+    .productInput {
+        width: calc((100% - 30px) / 4);
+    }
+
+    .buttonGroup{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+}

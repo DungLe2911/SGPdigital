@@ -11,6 +11,7 @@ const recordSchema = new mongoose.Schema({
     innerShellCount: Number,
     ribShellCount: Number,
     wormCount: Number,
+    blackPieces: Number,
     other: String,
     shift: {
         type: Number,
