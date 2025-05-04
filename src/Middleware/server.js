@@ -7,6 +7,7 @@ import AppError from './Utils/Error.js';
 import userRoute from './Controller/userRoute.js';
 import areaRoute from './Controller/areaRoute.js';
 import machineRoute from './Controller/machineRoute.js';
+import recordRoute from './Controller/recordRoute.js';
 
 const app = express();
 const PORT = 8080;
@@ -102,6 +103,7 @@ async function appInitiallization() {
     app.use('/users', userRoute);
     app.use('/areas', areaRoute);
     app.use('/machines', machineRoute);
+    app.use('/records', recordRoute);
     app.all('/*splat', (req, res, next) => {// universal route for catching all the requests that is not specified above
         next(new AppError(`Cannot find ${req.originalUrl} route with ${req.method} method on server`, 404));
       });

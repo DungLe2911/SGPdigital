@@ -9,7 +9,6 @@ const recordSchema = new mongoose.Schema({
     },
     hardShellCount: Number,
     innerShellCount: Number,
-    ribShellCount: Number,
     wormCount: Number,
     blackPieces: Number,
     other: String,
@@ -32,6 +31,7 @@ const recordSchema = new mongoose.Schema({
     lineNumber: Number,
     trackingNumber: String,
     picker: String,
+    moisture: Number
 
 }, {
     timestamps: true
@@ -57,24 +57,8 @@ recordSchema.pre('validate', async function (next) {
 
         const missing = field => record[field] == null || record[field] === '';
 
-        if (areaType === 'picking' && (missing('lineNumber') || missing('picker') || missing('trackingNumber'))) {
-            return next(new Error('Picking requires lineNumber, picker, and trackingNumber.'));
-        }
-
-        if (machineType === 'lmc' && missing('lineNumber')) {
-            return next(new Error('LMC requires lineNumber.'));
-        }
-
-        if (machineType === 'satake' && (missing('lineNumber') || missing('trackingNumber'))) {
-            return next(new Error('Satake requires lineNumber and trackingNumber.'));
-        }
-
-        if (machineType === 'buhler' && missing('lineNumber')) {
-            return next(new Error('Buhler requires lineNumber.'));
-        }
-
-        if (areaType === 'sample' && missing('trackingNumber')) {
-            return next(new Error('Sample requires trackingNumber.'));
+        if (areaType === 'picking' && (missing('picker') || missing('moisture'))) {
+            return next(new Error('Picking requires spicker, and moisture.'));
         }
 
         next();

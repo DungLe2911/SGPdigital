@@ -60,8 +60,16 @@ const addNewMachine = async(payload) =>{
     return response
 }
 
+/*-------------------------------- QC Record -------------------------------------------*/ 
+const submitRecord = async(payload) =>{
+    const url = createUrl('/records')
+    const response = apiClient.post(url, payload, {withCredentials: true})
+    return response
+}
+
 export {loginUser, authCheck, logUserOut,
     getAllUser, createUser, saveUser,
     getListArea, 
-    getListMachine, addNewMachine
+    getListMachine, addNewMachine,
+    submitRecord
 }

@@ -64,6 +64,61 @@
     align-items: center;
 }
 
+.submissionList{
+    font-size: var(--fs-2);
+
+    margin-left: 45px;
+    margin-top: 10px;
+}
+
+.submissionItem:not(:last-child) {
+    margin-bottom: 20px;
+}
+.submissionItem {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 3px;
+    flex-wrap: nowrap;
+}
+
+/* Regular line for middle items (not first or last) */
+.submissionItem:not(:last-child)::before {
+    background: var(--jet);
+    content: "";
+    height: calc(100% + 50px);
+    left: -30px;
+    position: absolute;
+    top: 5px;
+    width: 1px;
+}
+
+/* Special case: when exactly two items exist, target the second one */
+.submissionItem:last-child:nth-child(2)::before {
+    background: var(--jet);
+    content: "";
+    height: calc(100% + 50px);
+    left: -30px;
+    position: absolute;
+    top: calc((100%)*-1);
+    width: 1px;
+}
+
+.submissionItem:after {
+    background: var(--text-gradient-yellow);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px var(--jet);
+    content: "";
+    height: 6px;
+    left: -33px;
+    position: absolute;
+    top: 5px;
+    width: 6px;
+    z-index: 1;
+}
+
+
 @media (min-width: 500px) {
     .qcFormInput {
         display: flex;
@@ -87,5 +142,23 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
+    }
+
+    .submissionList{
+        margin-left: 65px;
+    }
+
+    .submissionItem:not(:last-child):before {
+        left: -40px;
+    }
+
+    .submissionItem:last-child:nth-child(2)::before{
+        left: -40px
+    }
+
+    .submissionItem:after {
+        height: 8px;
+        left: -43px;
+        width: 8px;
     }
 }
